@@ -65,20 +65,34 @@
             <PasswordField fx:id="passwordTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="signInB" mnemonicParsing="false" onAction="#signIn" text="Sign in">
-                     <styleClass>
-                        <String fx:value="btn" />
-                        <String fx:value="btn-blue" />
-                        <String fx:value="font-bold" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="exitB" mnemonicParsing="false" onAction="#exitBtn" text="Exit">
-                     <styleClass>
-                        <String fx:value="btn" />
-                        <String fx:value="btn-red" />
-                        <String fx:value="font-bold" />
-                     </styleClass>
-                  </Button>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="exitB" mnemonicParsing="false" onAction="#exitBtn" text="Exit">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-red" />
+                              <String fx:value="font-bold" />
+                           </styleClass>
+                        </Button>
+                        <Button fx:id="minimizeB" mnemonicParsing="false" onAction="#minimizeWindow" text="Minimize">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-orange" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <FlowPane alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="114.0">
+                     <children>
+                        <Button fx:id="signInB" mnemonicParsing="false" onAction="#signIn" text="Sign in">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-blue" />
+                              <String fx:value="font-bold" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </FlowPane>
                </children>
             </HBox>
          </children>

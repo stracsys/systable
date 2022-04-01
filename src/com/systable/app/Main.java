@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,17 +29,19 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(TITLE);
 			primaryStage.setResizable(false);
+			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 				@Override
 				public void handle(WindowEvent arg0) {
-					
+
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle(Main.TITLE);
+					alert.initStyle(StageStyle.UNDECORATED);
 					alert.setHeaderText("Fermeture non autorisee!!");
 					alert.setContentText("Utilisez le bouton correspondant.");
 					alert.showAndWait();
-					
+
 					arg0.consume();
 				}
 			});

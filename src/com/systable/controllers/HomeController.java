@@ -21,6 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class HomeController {
 
@@ -33,6 +34,9 @@ public class HomeController {
 	@FXML
 	private PasswordField passwordTF;
 
+	@FXML
+	private Button minimizeB;
+	
 	@FXML
 	private Button signInB;
 
@@ -50,6 +54,7 @@ public class HomeController {
 	void exitBtn(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(Main.TITLE);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Quitter l'application?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
@@ -58,6 +63,11 @@ public class HomeController {
 		}
 	}
 
+	@FXML
+    void minimizeWindow(ActionEvent event) {
+		ServiceController.minimizeWindow(homeWindow);
+    }
+	
 	@FXML
 	void signIn(ActionEvent event) throws UMSException, IOException {
 		int status = UserDAO.signIn(loginTF.getText(), passwordTF.getText());
@@ -90,6 +100,7 @@ public class HomeController {
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle(Main.TITLE);
+			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Connexion echouee!!");
 			alert.setContentText("Login ou mot de passe incorrect.");
 			alert.showAndWait();

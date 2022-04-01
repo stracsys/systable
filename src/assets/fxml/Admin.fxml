@@ -177,25 +177,35 @@
       </VBox>
    </center>
    <bottom>
-      <HBox spacing="15.0" BorderPane.alignment="CENTER">
+      <HBox fillHeight="false" BorderPane.alignment="TOP_LEFT">
          <children>
-            <Button fx:id="deleteB" mnemonicParsing="false" onAction="#delete" text="Delete">
-               <styleClass>
-                  <String fx:value="btn" />
-                  <String fx:value="btn-orange" />
-                  <String fx:value="font-bold" />
-               </styleClass>
-            </Button>
-            <Button fx:id="clearB" mnemonicParsing="false" onAction="#clearField" styleClass="font-bold" text="Clear" />
-            <Button fx:id="addUpdateB" mnemonicParsing="false" onAction="#addOrUpdate" text="Add">
-               <styleClass>
-                  <String fx:value="btn" />
-                  <String fx:value="btn-blue" />
-                  <String fx:value="font-bold" />
-               </styleClass>
-            </Button>
-            <FlowPane alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+            <HBox spacing="15.0">
                <children>
+                  <Button fx:id="clearB" mnemonicParsing="false" onAction="#clearField" styleClass="font-bold" text="Clear" />
+                  <Button fx:id="addUpdateB" mnemonicParsing="false" onAction="#addOrUpdate" text="Add">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-blue" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="deleteB" mnemonicParsing="false" onAction="#delete" text="Delete">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-orange" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" spacing="15.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="minimizeB" mnemonicParsing="false" onAction="#minimizeWindow" text="Minimize">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-orange" />
+                     </styleClass>
+                  </Button>
                   <Button fx:id="logOutB" mnemonicParsing="false" onAction="#logOut" text="Log out">
                      <styleClass>
                         <String fx:value="btn" />
@@ -204,7 +214,7 @@
                      </styleClass>
                   </Button>
                </children>
-            </FlowPane>
+            </HBox>
          </children>
       </HBox>
    </bottom>

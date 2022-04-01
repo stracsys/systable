@@ -1,8 +1,6 @@
 package com.systable.controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.systable.app.Main;
 import com.systable.entities.User;
@@ -15,7 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class AdminController {
 
@@ -48,6 +46,9 @@ public class AdminController {
 
 	@FXML
 	private RadioButton updateBR;
+
+	@FXML
+	private Button minimizeB;
 
 	@FXML
 	private Button profileB;
@@ -152,7 +153,7 @@ public class AdminController {
 		this.user = user;
 		init();
 	}
-	
+
 	private void init() {
 
 		users = AdminMetier.listUsers();
@@ -264,6 +265,7 @@ public class AdminController {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(Main.TITLE);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Utilisateur ajoute avec succes!");
 		alert.showAndWait();
 
@@ -302,6 +304,7 @@ public class AdminController {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(Main.TITLE);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Utilisateur modifie avec succes!");
 		alert.showAndWait();
 
@@ -313,6 +316,11 @@ public class AdminController {
 
 	public void refreshTable() {
 		table.setItems(users);
+	}
+
+	@FXML
+	void minimizeWindow(ActionEvent event) {
+		ServiceController.minimizeWindow(adminWindow);
 	}
 
 	@FXML
@@ -347,6 +355,7 @@ public class AdminController {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle(Main.TITLE);
+			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Supprimer cet utilisateur ?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
@@ -365,6 +374,7 @@ public class AdminController {
 		} catch (UMSException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle(Main.TITLE);
+			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Delete user!!");
 			alert.setContentText("Aucun utilisateur selectionnee.");
 			alert.showAndWait();
@@ -376,6 +386,7 @@ public class AdminController {
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(Main.TITLE);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Deconnexion");
 		alert.setContentText("Vous deconnecter?");
 

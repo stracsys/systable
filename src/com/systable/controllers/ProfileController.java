@@ -15,12 +15,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class ProfileController {
 
 	@FXML
 	private BorderPane profileWindow;
 
+	@FXML
+	private Button minimizeB;
+	
 	@FXML
 	private TextField idTF;
 
@@ -121,6 +125,7 @@ public class ProfileController {
 	void closeB(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(Main.TITLE);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Close window?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
@@ -129,6 +134,11 @@ public class ProfileController {
 		}
 	}
 
+	@FXML
+    void minimizeWindow(ActionEvent event) {
+		ServiceController.minimizeWindow(profileWindow);
+    }
+	
 	@FXML
 	void resetField(ActionEvent event) {
 		idTF.setText(String.valueOf(user.getId()));
@@ -169,6 +179,8 @@ public class ProfileController {
 			return false;
 
 		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(Main.TITLE);
+		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Utilisateur modifie avec succes!");
 		alert.showAndWait();
 

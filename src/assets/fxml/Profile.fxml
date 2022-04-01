@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane fx:id="profileWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systable.controllers.ProfileController">
    <top>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -94,8 +93,14 @@
                         </Button>
                      </children>
                   </HBox>
-                  <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                      <children>
+                        <Button fx:id="minimizeB" mnemonicParsing="false" onAction="#minimizeWindow" text="Minimize">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-orange" />
+                           </styleClass>
+                        </Button>
                         <Button fx:id="closeB" mnemonicParsing="false" onAction="#closeB" text="Close">
                            <styleClass>
                               <String fx:value="btn" />
@@ -104,7 +109,7 @@
                            </styleClass>
                         </Button>
                      </children>
-                  </FlowPane>
+                  </HBox>
                </children>
             </HBox>
             <TextField fx:id="firstNameTF" GridPane.columnIndex="1" GridPane.rowIndex="5" />
