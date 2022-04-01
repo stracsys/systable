@@ -28,6 +28,9 @@ public class ProfileController {
 	private TextField loginTF;
 
 	@FXML
+	private TextField firstNameTF;
+	
+	@FXML
 	private TextField lastNameTF;
 
 	@FXML
@@ -44,9 +47,6 @@ public class ProfileController {
 
 	@FXML
 	private PasswordField confirmPasswordPF;
-
-	@FXML
-	private PasswordField firstNameTF;
 
 	@FXML
 	private PasswordField passwordPF;

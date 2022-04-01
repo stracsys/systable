@@ -49,6 +49,7 @@ public class HomeController {
 	@FXML
 	void exitBtn(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle(Main.TITLE);
 		alert.setHeaderText("Quitter l'application?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
