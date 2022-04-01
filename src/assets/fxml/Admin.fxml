@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="adminWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="626.0" prefWidth="1275.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systable.controllers.AdminController">
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+               <children>
+                  <RadioButton fx:id="addBR" mnemonicParsing="false" onAction="#updateAddUpdateB" selected="true" text="Add">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="addUpdateTG" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="updateBR" mnemonicParsing="false" onAction="#updateAddUpdateB" text="Update" toggleGroup="$addUpdateTG" />
+               </children>
+            </HBox>
+            <FlowPane prefHeight="200.0" prefWidth="200.0" styleClass="text-c-r" GridPane.columnIndex="1">
+               <children>
+                  <Button fx:id="profileB" mnemonicParsing="false" onAction="#showProfile" text="Profile">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-blue" />
+                        <String fx:value="font-bold-italic" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+   </top>
+   <stylesheets>
+      <URL value="@../css/caspian.css" />
+      <URL value="@../css/stylesheet.css" />
+   </stylesheets>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <left>
+      <GridPane prefHeight="593.0" prefWidth="393.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="143.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="250.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Id" />
+            <Label text="Login" GridPane.rowIndex="1" />
+            <Label text="Password" GridPane.rowIndex="2" />
+            <Label text="Confirm password" GridPane.rowIndex="3" />
+            <Label text="First name" GridPane.rowIndex="4" />
+            <Label text="Last name" GridPane.rowIndex="5" />
+            <Label text="Phone code" GridPane.rowIndex="6" />
+            <Label text="Phone number" GridPane.rowIndex="7" />
+            <Label text="Email" GridPane.rowIndex="8" />
+            <Label text="Address" GridPane.rowIndex="9" />
+            <Label text="Profile" GridPane.rowIndex="10" />
+            <TextField fx:id="idTF" disable="true" GridPane.columnIndex="1" />
+            <TextField fx:id="loginTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="firstNameTF" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="lastNameTF" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="phoneCodeTF" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="phoneNumberTF" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="emailTF" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="addressTF" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <ComboBox fx:id="profileCB" prefHeight="23.0" prefWidth="253.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <PasswordField fx:id="passwordPF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="confirmPasswordPF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Label text="Tri svt le profil" />
+                        <ComboBox fx:id="searchProfileCB" onAction="#searchByProfile" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1">
+                     <children>
+                        <TextField fx:id="searchAttributeTF" prefHeight="25.0" prefWidth="166.0" />
+                        <ComboBox fx:id="searchAttributeCB" prefWidth="150.0" promptText="Attribute" />
+                        <Button fx:id="searchAttributeB" mnemonicParsing="false" onAction="#searchByAttribute" styleClass="font-bold" text="Search" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <TableView fx:id="table" onMouseClicked="#updateField" tableMenuButtonVisible="true">
+                     <columns>
+                        <TableColumn fx:id="profileCol" prefWidth="75.0" text="PROFILE" />
+                        <TableColumn fx:id="idCol" prefWidth="45.0" text="ID" />
+                        <TableColumn fx:id="loginCol" prefWidth="92.0" text="LOGIN" />
+                        <TableColumn fx:id="firstNameCol" prefWidth="107.0" text="FIRST NAME" />
+                        <TableColumn fx:id="lastNameCol" prefWidth="88.0" text="LAST NAME" />
+                        <TableColumn fx:id="phoneCodeCol" prefWidth="64.0" text="P CODE" />
+                        <TableColumn fx:id="phoneNumberCol" prefWidth="95.0" text="P NUM" />
+                        <TableColumn fx:id="emailCol" prefWidth="58.0" text="EMAIL" />
+                        <TableColumn fx:id="addressCol" prefWidth="129.0" text="ADDRESS" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </content>
+            </ScrollPane>
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="842.0" styleClass="font-size-20">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="font-bold-italic" text="Nombre d'utilisateur: " />
+                  <Label text="0">
+                     <styleClass>
+                        <String fx:value="text-blue" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="deleteB" mnemonicParsing="false" onAction="#delete" text="Delete">
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-orange" />
+                  <String fx:value="font-bold" />
+               </styleClass>
+            </Button>
+            <Button fx:id="clearB" mnemonicParsing="false" onAction="#clearField" styleClass="font-bold" text="Clear" />
+            <Button fx:id="addUpdateB" mnemonicParsing="false" onAction="#addOrUpdate" text="Add">
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="btn-blue" />
+                  <String fx:value="font-bold" />
+               </styleClass>
+            </Button>
+            <FlowPane alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="logOutB" mnemonicParsing="false" onAction="#logOut" text="Log out">
+                     <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-red" />
+                        <String fx:value="font-bold" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </FlowPane>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

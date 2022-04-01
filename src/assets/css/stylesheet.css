@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'JetBrains Mono Regular';
+    src: url('../fonts/JetBrainsMono/JetBrainsMono-Regular.ttf');
+}
+@font-face {
+    font-family: 'JetBrains Mono Bold';
+    src: url('../fonts/JetBrainsMono/JetBrainsMono-Bold.ttf');
+}
+@font-face {
+    font-family: 'Victor Mono Italic';
+    src: url('../fonts/VictorMono/VictorMono-Italic.ttf');
+}
+@font-face {
+    font-family: 'Victor Mono Bold Italic';
+    src: url('../fonts/VictorMono/VictorMono-BoldItalic.ttf');
+}
+.font-bold {
+	-fx-font-family: "JetBrains Mono Bold";
+}
+.font-italic {
+	-fx-font-family: "Victor Mono Italic";
+}
+.font-bold-italic {
+	-fx-font-family: "Victor Mono Bold Italic";
+}
+
+.font-size-16 {
+  -fx-font-size: 14px;
+}
+
+.font-size-20 {
+  -fx-font-size: 20px;
+}
+
+.font-size-24 {
+  -fx-font-size: 24px;
+}
+
+
+.root {
+	-fx-background-image: url("../img/jee.png");
+	-fx-font-family: "JetBrains Mono Regular";
+}
+
+.btn {
+	-fx-text-fill: white;
+	-fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
+}
+
+.btn-blue {
+	-fx-background-color: linear-gradient(#61a2b1, #2A5058);
+}
+
+.btn-red {
+	-fx-background-color: "#DC143C";
+}
+
+.btn-orange {
+	-fx-background-color: orange;
+}
+
+.text-white {
+	-fx-text-fill: white;
+}
+
+.text-blue {
+	-fx-text-fill: blue;
+}
+
+.text-c {
+  -fx-alignment: center;
+}
+
+.text-c-l {
+  -fx-alignment: center-left 
+}
+
+.text-c-r {
+  -fx-alignment: center-right 
+}
+
+.border {
+  -fx-border-width: 1px;
+}
+
+.border-b {
+	-fx-border-width: 0 0 1px 0;
+}
+.border-t{
+	-fx-border-width: 1px 0 0 0;
+}
+.border-l{
+	-fx-border-width: 0 0 0 1px;
+}
+.border-r{
+	-fx-border-width: 0 0 1px 0;
+}
+
+.border, .border-b, .border-t, .border-l, .border-r {
+  -fx-border-color: gray;
+}
+
+.border-gray {
+	-fx-border-color: gray;
+}

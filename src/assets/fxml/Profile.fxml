@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+
+<BorderPane fx:id="profileWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systable.controllers.ProfileController">
+   <top>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <Pane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <GridPane vgap="30.0" BorderPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="94.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="106.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" rowValignment="TOP" styleClass="border-b" GridPane.columnSpan="2147483647">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PROFILE">
+                     <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="font-size-24" />
+                     </styleClass>
+                  </Text>
+               </children>
+            </FlowPane>
+            <Label text="Id" GridPane.rowIndex="1" />
+            <Label text="Login" GridPane.rowIndex="2" />
+            <Label text="Password" GridPane.rowIndex="3" />
+            <Label text="Confirm password" GridPane.rowIndex="4" />
+            <Label text="First name" GridPane.rowIndex="5" />
+            <Label text="Last name" GridPane.rowIndex="6" />
+            <Label text="Phone code" GridPane.rowIndex="7" />
+            <Label text="Phone number" GridPane.rowIndex="8" />
+            <Label text="Email" GridPane.rowIndex="9" />
+            <Label text="Address" GridPane.rowIndex="10" />
+            <TextField fx:id="idTF" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="loginTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="lastNameTF" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="phoneCodeTF" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="phoneNumberTF" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="emailTF" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextField fx:id="addressTF" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <PasswordField fx:id="confirmPasswordPF" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <PasswordField fx:id="passwordPF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="font-bold" GridPane.columnSpan="2147483647" GridPane.rowIndex="11">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+                     <children>
+                        <Button fx:id="updateUserB" mnemonicParsing="false" onAction="#updateUser" text="Update">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-blue" />
+                           </styleClass>
+                        </Button>
+                        <Button fx:id="resetUserB" mnemonicParsing="false" onAction="#resetField" text="Reset">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-orange" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="closeB" mnemonicParsing="false" onAction="#closeB" text="Close">
+                           <styleClass>
+                              <String fx:value="btn" />
+                              <String fx:value="btn-red" />
+                              <String fx:value="font-bold" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </FlowPane>
+               </children>
+            </HBox>
+            <TextField fx:id="firstNameTF" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+   </center>
+   <right>
+      <Pane prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </right>
+   <stylesheets>
+      <URL value="@../css/caspian.css" />
+      <URL value="@../css/stylesheet.css" />
+   </stylesheets>
+</BorderPane>
