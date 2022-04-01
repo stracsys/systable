@@ -1,12 +1,15 @@
 package com.systable.controllers;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import com.systable.app.Main;
 import com.systable.entities.User;
 import com.systable.enumeration.Profile;
 import com.systable.exceptions.UMSException;
 import com.systable.metier.AdminMetier;
+import com.systable.session.UserSession;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,7 +40,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-public class AdminController {
+public class AdminController implements Initializable {
 
 	@FXML
 	private BorderPane adminWindow;
@@ -146,25 +150,29 @@ public class AdminController {
 	@FXML
 	private TableColumn<User, String> profileCol;
 
-	private ObservableList<User> users;
-
-	private User user;
-
 	private FXMLLoader loader;
 	private Stage stage;
 	private Parent root;
 
-	public void shareData(User user) {
-		this.user = user;
-		init();
+	private ObservableList<User> users;
+
+	public AdminController() {
 	}
 
-	private void init() {
-
-		users = AdminMetier.listUsers();
-
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		initData();
 		initComboBox();
 		initTable();
+	}
+
+	private void updateNbUserL() {
+		nbUserL.setText(String.valueOf(users.size()));
+	}
+
+	private void initData() {
+		users = AdminMetier.listUsers();
+		updateNbUserL();
 	}
 
 	private void initTable() {
@@ -222,7 +230,7 @@ public class AdminController {
 		if (!bool)
 			return false;
 
-		bool = ServiceController.checkProfileCB(profileCB.getValue(), "profile");
+		bool = ServiceController.checkComboBox(profileCB, "profile");
 		if (!bool)
 			return false;
 
@@ -241,7 +249,7 @@ public class AdminController {
 		searchAttributeCB.setItems(attributes);
 	}
 
-	private boolean add() throws UMSException {
+	private void add() throws UMSException {
 		String loginVal = loginTF.getText();
 		String passwordVal = passwordPF.getText();
 		String firstNameVal = firstNameTF.getText();
@@ -251,7 +259,7 @@ public class AdminController {
 
 		boolean check = checkField();
 		if (!check)
-			return false;
+			return;
 
 		int status = 0;
 
@@ -261,11 +269,25 @@ public class AdminController {
 
 		status = AdminMetier.addUser(newUser);
 
-		if (status < 0)
-			return false;
+		if (status < 0) {
+			
+			String errorMsg = null;
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle(Main.TITLE);
+			alert.setHeaderText("Add user!!");
+			
+			if (status == -1) errorMsg = ("Oops. Ce login existe deja.");
+			if (status == -2) errorMsg = ("Oops. Ce numero de telephone existe deja.");
+			if (status == -3) errorMsg = ("Oops. Cet email existe deja.");
+			
+			alert.setContentText(errorMsg);
+			alert.showAndWait();
+			return ;
+		}
 
 		if (profileCB.getValue() == searchProfileCB.getValue() || searchProfileCB.getValue() == null) {
 			users.add(newUser);
+			updateNbUserL();
 		}
 
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -274,11 +296,9 @@ public class AdminController {
 		alert.showAndWait();
 
 		clearField(null);
-
-		return true;
 	}
 
-	private boolean update() throws UMSException {
+	private void update() throws UMSException {
 		int idVal = Integer.parseInt(idTF.getText());
 		String loginVal = loginTF.getText();
 		String confirmPasswordVal = confirmPasswordPF.getText();
@@ -289,7 +309,7 @@ public class AdminController {
 
 		boolean check = checkField();
 		if (!check)
-			return false;
+			return;
 
 		int status = 0;
 
@@ -301,7 +321,7 @@ public class AdminController {
 		status = AdminMetier.updateUser(newUser, selectedIndex);
 
 		if (status < 0)
-			return false;
+			return;
 
 		users.remove(selectedIndex);
 		users.add(selectedIndex, newUser);
@@ -312,12 +332,9 @@ public class AdminController {
 		alert.showAndWait();
 
 		clearField(null);
-
-		return true;
-
 	}
 
-	public void refreshTable() {
+	private void refreshTable() {
 		table.setItems(users);
 	}
 
@@ -365,6 +382,7 @@ public class AdminController {
 
 				if (status > 0) {
 					users.remove(user);
+					updateNbUserL();
 
 					Alert alert2 = new Alert(AlertType.INFORMATION);
 					alert2.setTitle(Main.TITLE);
@@ -391,6 +409,7 @@ public class AdminController {
 		alert.setContentText("Vous deconnecter?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
+			UserSession.logOut();
 			String rootFxmlFile = "Home";
 			loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
 			root = loader.load();
@@ -401,7 +420,7 @@ public class AdminController {
 			stage.setResizable(false);
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-				
+
 				@Override
 				public void handle(WindowEvent arg0) {
 					Alert alert = new Alert(AlertType.WARNING);
@@ -422,23 +441,45 @@ public class AdminController {
 
 	@FXML
 	void searchByAttribute(ActionEvent event) throws UMSException {
+		boolean bool;
+
+		bool = ServiceController.checkStringTF(searchAttributeTF.getText(), "search");
+		if (!bool)
+			return;
+
+		bool = ServiceController.checkComboBox(searchAttributeCB, "attribut");
+		if (!bool)
+			return;
+
 		AdminMetier.listUsersByAttributes(searchAttributeCB.getValue(), searchAttributeTF.getText());
+		updateNbUserL();
 	}
 
 	@FXML
 	void searchByProfile(ActionEvent event) throws UMSException {
 		AdminMetier.listUsersByProfile(searchProfileCB.getValue());
+		updateNbUserL();
 	}
 
 	@FXML
 	void showProfile(ActionEvent event) {
 		try {
+			ProfileController profileController = ProfileController.getInstance();
+
+			if (ProfileController.isOpen) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle(Main.TITLE);
+				alert.setHeaderText("Ouverture!!");
+				alert.setContentText("La fenetre de profile est ouverte.");
+				alert.showAndWait();
+				return;
+			}
+			ProfileController.isOpen = true;
+
 			String rootFxmlFile = "Profile";
 			loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
+			loader.setController(profileController);
 			root = loader.load();
-
-			ProfileController profileController = loader.getController();
-			profileController.shareData(user);
 
 			stage = new Stage();
 			stage.setScene(new Scene(root));
@@ -446,7 +487,7 @@ public class AdminController {
 			stage.setResizable(false);
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-				
+
 				@Override
 				public void handle(WindowEvent arg0) {
 					Alert alert = new Alert(AlertType.WARNING);
@@ -459,7 +500,9 @@ public class AdminController {
 				}
 			});
 			stage.show();
-		} catch (Exception e2) {
+		} catch (
+
+		Exception e2) {
 			e2.printStackTrace();
 		}
 	}

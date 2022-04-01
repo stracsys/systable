@@ -1,12 +1,17 @@
 package com.systable.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import com.systable.app.Main;
 import com.systable.entities.User;
 import com.systable.exceptions.UMSException;
 import com.systable.metier.AdminMetier;
+import com.systable.session.UserSession;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -16,14 +21,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class ProfileController {
+public class ProfileController implements Initializable {
 
 	@FXML
 	private BorderPane profileWindow;
 
 	@FXML
 	private Button minimizeB;
-	
+
 	@FXML
 	private TextField idTF;
 
@@ -32,7 +37,7 @@ public class ProfileController {
 
 	@FXML
 	private TextField firstNameTF;
-	
+
 	@FXML
 	private TextField lastNameTF;
 
@@ -63,16 +68,23 @@ public class ProfileController {
 	@FXML
 	private Button closeB;
 
-	private User user;
-
-	public void shareData(User user) {
-		this.user = user;
-		init();
-	}
-
 	private Stage stage;
 
-	private void init() {
+	public static ProfileController INSTANCE = null;
+	public static boolean isOpen;
+
+	public ProfileController() {
+	}
+
+	public static ProfileController getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ProfileController();
+		}
+		return INSTANCE;
+	}
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		resetField(null);
 	}
 
@@ -127,18 +139,22 @@ public class ProfileController {
 		alert.setHeaderText("Close window?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
+			ProfileController.isOpen = false;
+			ProfileController.INSTANCE = null;
 			stage = (Stage) profileWindow.getScene().getWindow();
 			stage.close();
 		}
 	}
 
 	@FXML
-    void minimizeWindow(ActionEvent event) {
+	void minimizeWindow(ActionEvent event) {
 		ServiceController.minimizeWindow(profileWindow);
-    }
-	
+	}
+
 	@FXML
 	void resetField(ActionEvent event) {
+		User user = UserSession.getUser();
+
 		idTF.setText(String.valueOf(user.getId()));
 		loginTF.setText(user.getLogin());
 		passwordPF.setText(null);
@@ -152,7 +168,7 @@ public class ProfileController {
 	}
 
 	@FXML
-	boolean updateUser(ActionEvent event) throws UMSException {
+	void updateUser(ActionEvent event) throws UMSException {
 		int idVal = Integer.parseInt(idTF.getText());
 		String loginVal = loginTF.getText();
 		String confirmPasswordVal = confirmPasswordPF.getText();
@@ -163,25 +179,29 @@ public class ProfileController {
 
 		boolean check = checkField();
 		if (!check)
-			return false;
+			return;
 
 		int status = 0;
 
 		User newUser = new User(idVal, loginVal, confirmPasswordVal, firstNameVal, lastNameVal,
 				Integer.parseInt(phoneCodeTF.getText()), Integer.parseInt(phoneNumberTF.getText()), emailVal,
-				addressVal, user.getProfile());
+				addressVal, UserSession.getUser().getProfile());
 
 		status = AdminMetier.updateUser(newUser);
 
-		if (status < 0)
-			return false;
+		if (status < 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle(Main.TITLE);
+			alert.setHeaderText("Echec lors de la modification de l'utilisateur!!");
+			alert.showAndWait();
+			return;
+		}
 
+		UserSession.setUser(newUser);
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(Main.TITLE);
 		alert.setHeaderText("Utilisateur modifie avec succes!");
 		alert.showAndWait();
-
-		return true;
 	}
 
 }

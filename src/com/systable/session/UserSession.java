@@ -1,31 +1,39 @@
 package com.systable.session;
 
+import com.systable.entities.User;
+
 public final class UserSession {
 	
-	private UserSession instance;
-	private static int id;
+	private static UserSession instance;
 	
-	public UserSession(int id) {
-		UserSession.id = id;
+	private static User user;
+	
+	public UserSession(User user) {
+		UserSession.user = user;
 	}
 	
-	public UserSession getInstance(int id) {
+	public static UserSession getInstance(User user) {
 		if (instance == null) {
-			instance = new UserSession(id);
+			instance = new UserSession(user);
 		}
 		return instance;
 	}
 
-	public static int getId() {
-		return id;
+	public static User getUser() {
+		return user;
 	}
-
-	public static void setId(int id) {
-		UserSession.id = id;
+	
+	public static void setUser(User user) {
+		UserSession.user = user;
 	}
 	
 	@Override
 	public String toString() {
 		return super.toString();
+	}
+	
+	public static void logOut() {
+		UserSession.user = null;
+		instance = null;
 	}
 }

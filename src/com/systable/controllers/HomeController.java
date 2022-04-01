@@ -6,6 +6,7 @@ import com.systable.app.Main;
 import com.systable.entities.User;
 import com.systable.exceptions.UMSException;
 import com.systable.jdbc.UserDAO;
+import com.systable.session.UserSession;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -30,6 +32,9 @@ public class HomeController {
 	@FXML
 	private BorderPane homeWindow;
 
+	@FXML
+	private Pane rootPane;
+	
 	@FXML
 	private TextField loginTF;
 
@@ -75,20 +80,22 @@ public class HomeController {
 
 		if (status > 0) {
 			user = UserDAO.getUserByLogin(loginTF.getText());
+			UserSession userSession =  UserSession.getInstance(user);
 
 			String rootFxmlFile;
 
 			switch (user.getProfile()) {
 			case ADMIN:
 				rootFxmlFile = "Admin";
+				AdminController adminController = new AdminController();
 				loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
+				loader.setController(adminController);
 				root = loader.load();
 
-				AdminController adminController = loader.getController();
-				adminController.shareData(user);
-
 				break;
-
+//			case ASSISTANT:
+//
+//				break;
 			default:
 				break;
 			}

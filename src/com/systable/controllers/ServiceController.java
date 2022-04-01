@@ -5,6 +5,7 @@ import com.systable.enumeration.Profile;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -73,9 +74,9 @@ public class ServiceController {
 		return true;
 	}
 
-	public static boolean checkProfileCB(Profile profile, String name) {
+	public static <T> boolean checkComboBox(ComboBox<T> cb, String name) {
 
-		if (profile == null) {
+		if (cb.getValue() == null) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Champ requis!!");

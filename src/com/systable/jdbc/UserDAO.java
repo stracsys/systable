@@ -3,6 +3,7 @@ package com.systable.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import com.systable.entities.User;
 import com.systable.exceptions.UMSException;
@@ -32,6 +33,17 @@ public class UserDAO {
 
 			status = preparedStatement.executeUpdate();
 
+		} catch (SQLIntegrityConstraintViolationException e) {
+			if (e.getMessage().contains("login"))
+				status = -1;
+			else if (e.getMessage().contains("phone"))
+				status = -2;
+			else if (e.getMessage().contains("email"))
+				status = -3;
+			else {
+				System.err.println(e.getMessage());
+				status = -4;
+			}
 		} catch (Exception e) {
 			throw new UMSException(e.getClass() + ";" + e.getMessage());
 		}
@@ -51,13 +63,13 @@ public class UserDAO {
 			ps.setString(++index, password);
 
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) 
+			if (rs.next())
 				status = rs.getInt(1);
-			
+
 		} catch (Exception e) {
 			throw new UMSException(e.getClass() + ";" + e.getMessage());
 		}
-		
+
 		return status;
 	}
 
@@ -69,18 +81,9 @@ public class UserDAO {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				int index = 0;
-				u = new User(
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getInt(++index),
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index)
-						);
+				u = new User(rs.getInt(++index), rs.getString(++index), rs.getString(++index), rs.getString(++index),
+						rs.getString(++index), rs.getInt(++index), rs.getInt(++index), rs.getString(++index),
+						rs.getString(++index), rs.getString(++index));
 			}
 
 		} catch (Exception e) {
@@ -89,7 +92,7 @@ public class UserDAO {
 
 		return u;
 	}
-	
+
 	public static User getUserByLogin(String login) throws UMSException {
 		User u = new User();
 		try (Connection conn = DBManager.getConnection()) {
@@ -98,18 +101,9 @@ public class UserDAO {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				int index = 0;
-				u = new User(
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getInt(++index),
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index)
-						);
+				u = new User(rs.getInt(++index), rs.getString(++index), rs.getString(++index), rs.getString(++index),
+						rs.getString(++index), rs.getInt(++index), rs.getInt(++index), rs.getString(++index),
+						rs.getString(++index), rs.getString(++index));
 			}
 
 		} catch (Exception e) {
@@ -118,27 +112,18 @@ public class UserDAO {
 
 		return u;
 	}
-	
+
 	public static ObservableList<User> getUsers() throws UMSException {
 		ObservableList<User> users = FXCollections.observableArrayList();
 		try (Connection conn = DBManager.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM users");
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				int index = 0;
-				User u = new User(
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getInt(++index),
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index)
-						);
+				User u = new User(rs.getInt(++index), rs.getString(++index), rs.getString(++index),
+						rs.getString(++index), rs.getString(++index), rs.getInt(++index), rs.getInt(++index),
+						rs.getString(++index), rs.getString(++index), rs.getString(++index));
 				users.add(u);
 			}
 
@@ -148,10 +133,10 @@ public class UserDAO {
 
 		return users;
 	}
-	
+
 	public static int deleteUser(User user) throws UMSException {
 		int status = 0;
-		
+
 		try (Connection conn = DBManager.getConnection()) {
 			String query = "DELETE FROM users WHERE id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -164,7 +149,7 @@ public class UserDAO {
 
 		return status;
 	}
-	
+
 	public static int updateUser(User user) throws UMSException {
 		int status = 0;
 		try (Connection connection = DBManager.getConnection()) {
@@ -188,7 +173,7 @@ public class UserDAO {
 		} catch (Exception e) {
 			throw new UMSException(e.getClass() + ";" + e.getMessage());
 		}
-		
+
 		return status;
 	}
 }
