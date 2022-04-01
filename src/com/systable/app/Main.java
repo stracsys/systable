@@ -23,11 +23,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			String rootFxmlFile = "Home";
-			root = FXMLLoader.load(getClass().getResource(FXML_PATH + rootFxmlFile + ".fxml"));
+			root = FXMLLoader.load(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
 
 			scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle(TITLE);
+			primaryStage.setTitle(Main.TITLE);
 			primaryStage.setResizable(false);
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

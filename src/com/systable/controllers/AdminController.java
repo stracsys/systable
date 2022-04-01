@@ -11,6 +11,7 @@ import com.systable.metier.AdminMetier;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -32,11 +34,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class AdminController {
 
 	@FXML
 	private BorderPane adminWindow;
+
+	@FXML
+	private Label nbUserL;
 
 	@FXML
 	private RadioButton addBR;
@@ -146,7 +152,6 @@ public class AdminController {
 
 	private FXMLLoader loader;
 	private Stage stage;
-	private Scene scene;
 	private Parent root;
 
 	public void shareData(User user) {
@@ -390,10 +395,28 @@ public class AdminController {
 			loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
 			root = loader.load();
 
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
+			stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle(Main.TITLE);
+			stage.setResizable(false);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				
+				@Override
+				public void handle(WindowEvent arg0) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle(Main.TITLE);
+					alert.setHeaderText("Fermeture non autorisee!!");
+					alert.setContentText("Utilisez le bouton correspondant.");
+					alert.showAndWait();
+
+					arg0.consume();
+				}
+			});
 			stage.show();
+
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.close();
 		}
 	}
 
@@ -417,8 +440,24 @@ public class AdminController {
 			ProfileController profileController = loader.getController();
 			profileController.shareData(user);
 
-			Stage stage = new Stage();
+			stage = new Stage();
 			stage.setScene(new Scene(root));
+			stage.setTitle(Main.TITLE);
+			stage.setResizable(false);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				
+				@Override
+				public void handle(WindowEvent arg0) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle(Main.TITLE);
+					alert.setHeaderText("Fermeture non autorisee!!");
+					alert.setContentText("Utilisez le bouton correspondant.");
+					alert.showAndWait();
+
+					arg0.consume();
+				}
+			});
 			stage.show();
 		} catch (Exception e2) {
 			e2.printStackTrace();

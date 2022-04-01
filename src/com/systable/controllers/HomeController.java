@@ -8,6 +8,7 @@ import com.systable.exceptions.UMSException;
 import com.systable.jdbc.UserDAO;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 public class HomeController {
 
@@ -36,7 +38,7 @@ public class HomeController {
 
 	@FXML
 	private Button minimizeB;
-	
+
 	@FXML
 	private Button signInB;
 
@@ -63,10 +65,10 @@ public class HomeController {
 	}
 
 	@FXML
-    void minimizeWindow(ActionEvent event) {
+	void minimizeWindow(ActionEvent event) {
 		ServiceController.minimizeWindow(homeWindow);
-    }
-	
+	}
+
 	@FXML
 	void signIn(ActionEvent event) throws UMSException, IOException {
 		int status = UserDAO.signIn(loginTF.getText(), passwordTF.getText());
@@ -78,23 +80,43 @@ public class HomeController {
 
 			switch (user.getProfile()) {
 			case ADMIN:
-
 				rootFxmlFile = "Admin";
 				loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
 				root = loader.load();
 
 				AdminController adminController = loader.getController();
 				adminController.shareData(user);
+
 				break;
 
 			default:
 				break;
 			}
 
-			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage = new Stage();
 			scene = new Scene(root);
+			stage.setTitle(Main.TITLE);
+			stage.setResizable(false);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+				@Override
+				public void handle(WindowEvent arg0) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setTitle(Main.TITLE);
+					alert.setHeaderText("Fermeture non autorisee!!");
+					alert.setContentText("Utilisez le bouton correspondant.");
+					alert.showAndWait();
+
+					arg0.consume();
+				}
+			});
+
 			stage.setScene(scene);
 			stage.show();
+
+			stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.close();
 
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);

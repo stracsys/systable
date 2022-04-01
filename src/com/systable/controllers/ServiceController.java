@@ -12,7 +12,7 @@ public class ServiceController {
 
 	public static boolean checkStringTF(String value, String name) {
 
-		if (value == null || value.equals("")) {
+		if (value == null || value.isBlank()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Champ requis!!");
@@ -27,7 +27,7 @@ public class ServiceController {
 
 	public static boolean checkIntTF(String value, String name) {
 
-		if (value == null || value.equals("")) {
+		if (value == null || value.isBlank()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Champ requis!!");
@@ -53,7 +53,7 @@ public class ServiceController {
 	}
 
 	public static boolean checkEmailTF(String email, String name) {
-		if (email == null || email.equals("")) {
+		if (email == null || email.isBlank()) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Champ requis!!");
@@ -75,7 +75,7 @@ public class ServiceController {
 
 	public static boolean checkProfileCB(Profile profile, String name) {
 
-		if (profile == null || profile.toString().equals("")) {
+		if (profile == null) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Champ requis!!");
