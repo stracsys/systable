@@ -265,7 +265,6 @@ public class AdminController {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(Main.TITLE);
-		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Utilisateur ajoute avec succes!");
 		alert.showAndWait();
 
@@ -304,7 +303,6 @@ public class AdminController {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(Main.TITLE);
-		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Utilisateur modifie avec succes!");
 		alert.showAndWait();
 
@@ -355,7 +353,6 @@ public class AdminController {
 
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Supprimer cet utilisateur ?");
 
 			if (alert.showAndWait().get() == ButtonType.OK) {
@@ -374,7 +371,6 @@ public class AdminController {
 		} catch (UMSException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Delete user!!");
 			alert.setContentText("Aucun utilisateur selectionnee.");
 			alert.showAndWait();
@@ -386,7 +382,6 @@ public class AdminController {
 
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(Main.TITLE);
-		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Deconnexion");
 		alert.setContentText("Vous deconnecter?");
 

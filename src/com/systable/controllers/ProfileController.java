@@ -125,7 +125,6 @@ public class ProfileController {
 	void closeB(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(Main.TITLE);
-		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Close window?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
@@ -180,7 +179,6 @@ public class ProfileController {
 
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle(Main.TITLE);
-		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Utilisateur modifie avec succes!");
 		alert.showAndWait();
 

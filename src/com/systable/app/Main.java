@@ -37,7 +37,6 @@ public class Main extends Application {
 
 					Alert alert = new Alert(AlertType.WARNING);
 					alert.setTitle(Main.TITLE);
-					alert.initStyle(StageStyle.UNDECORATED);
 					alert.setHeaderText("Fermeture non autorisee!!");
 					alert.setContentText("Utilisez le bouton correspondant.");
 					alert.showAndWait();

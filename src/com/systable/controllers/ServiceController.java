@@ -1,21 +1,12 @@
 package com.systable.controllers;
 
-import java.io.IOException;
-
 import com.systable.app.Main;
 import com.systable.enumeration.Profile;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class ServiceController {
 
@@ -24,7 +15,6 @@ public class ServiceController {
 		if (value == null || value.equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Champ requis!!");
 			alert.setContentText("Le champ " + name + " est vide.");
 			alert.showAndWait();
@@ -40,7 +30,6 @@ public class ServiceController {
 		if (value == null || value.equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Champ requis!!");
 			alert.setContentText("Le champ " + name + " est vide.");
 			alert.showAndWait();
@@ -53,7 +42,6 @@ public class ServiceController {
 		} catch (NumberFormatException ne) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Format incorrect!!");
 			alert.setContentText("Le champ " + name + " doit etre un nombre.");
 			alert.showAndWait();
@@ -68,7 +56,6 @@ public class ServiceController {
 		if (email == null || email.equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Champ requis!!");
 			alert.setContentText("Le champ " + name + " est vide.");
 			alert.showAndWait();
@@ -77,7 +64,6 @@ public class ServiceController {
 		} else if (!email.contains("@") && !email.contains(".")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Format incorrect!!");
 			alert.setContentText("Le champ " + name + " doit etre un email.\nExample: example@gmail.com");
 			alert.showAndWait();
@@ -92,7 +78,6 @@ public class ServiceController {
 		if (profile == null || profile.toString().equals("")) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Champ requis!!");
 			alert.setContentText("Le champ " + name + " est vide.");
 			alert.showAndWait();
@@ -108,7 +93,6 @@ public class ServiceController {
 		if (!string1.equals(string2)) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Non concordance!!");
 			alert.setContentText("Le champ " + name1 + " est different du champ " + name2 + ".");
 			alert.showAndWait();

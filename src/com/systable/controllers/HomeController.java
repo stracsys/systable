@@ -54,7 +54,6 @@ public class HomeController {
 	void exitBtn(ActionEvent event) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle(Main.TITLE);
-		alert.initStyle(StageStyle.UNDECORATED);
 		alert.setHeaderText("Quitter l'application?");
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
@@ -100,7 +99,6 @@ public class HomeController {
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle(Main.TITLE);
-			alert.initStyle(StageStyle.UNDECORATED);
 			alert.setHeaderText("Connexion echouee!!");
 			alert.setContentText("Login ou mot de passe incorrect.");
 			alert.showAndWait();
