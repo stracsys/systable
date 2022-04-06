@@ -13,7 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class TimeTableDAO {
-public static int addTimeTable(TimeTable timeTable) throws UMSException {
+	public static int addTimeTable(TimeTable timeTable) throws UMSException {
 		int status = 0;
 		try (Connection conn = DBManager.getConnection()) {
 
@@ -40,7 +40,42 @@ public static int addTimeTable(TimeTable timeTable) throws UMSException {
 		return status;
 	}
 
-public static ObservableList<TimeTable> getTimeTables() throws UMSException {
+	public static int getMaxIdByTimeTable() throws UMSException {
+		int id = 0;
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT MAX( id ) FROM timetables");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return id;
+	}
+
+	public static TimeTable getTimeTableById(int id) throws UMSException {
+		TimeTable t = new TimeTable();
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM timeTables WHERE id = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int index = 0;
+				t = new TimeTable(rs.getInt(++index), LocalDate.parse(rs.getString(++index)),
+						LocalDate.parse(rs.getString(++index)));
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return t;
+	}
+
+	public static ObservableList<TimeTable> getTimeTables() throws UMSException {
 		ObservableList<TimeTable> timetables = FXCollections.observableArrayList();
 		try (Connection conn = DBManager.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement("SELECT * FROM timetables");
@@ -48,14 +83,12 @@ public static ObservableList<TimeTable> getTimeTables() throws UMSException {
 
 			while (rs.next()) {
 				int index = 0;
-				
+
 				int id = rs.getInt(++index);
 				LocalDate startDate = LocalDate.parse(rs.getString(++index));
 				LocalDate endDate = LocalDate.parse(rs.getString(++index));
-				
-				TimeTable t = new TimeTable(
-						id, startDate, endDate
-						);
+
+				TimeTable t = new TimeTable(id, startDate, endDate);
 				timetables.add(t);
 			}
 

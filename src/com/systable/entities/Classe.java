@@ -6,9 +6,11 @@ public class Classe {
 	private String name;
 	private int idChief;
 	
-	private static int idAssigner;
-	
 	public Classe() {
+	}
+	
+	public Classe (String name) {
+		this.name = name;
 	}
 	
 	public Classe(int id, String name, int idChief) {
@@ -39,13 +41,5 @@ public class Classe {
 
 	public void setIdChief(int idChief) {
 		this.idChief = idChief;
-	}
-
-	public static int getIdAssigner() {
-		return idAssigner;
-	}
-
-	public static void setIdAssigner(int idAssigner) {
-		Classe.idAssigner = idAssigner;
 	}
 }

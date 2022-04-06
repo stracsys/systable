@@ -33,7 +33,7 @@ public final class UserSession {
 	}
 	
 	public static void logOut() {
-		UserSession.user = null;
+		user = null;
 		instance = null;
 	}
 }

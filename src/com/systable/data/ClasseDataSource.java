@@ -9,30 +9,24 @@ import javafx.collections.ObservableList;
 
 public class ClasseDataSource {
 
-	private ObservableList<Classe> allClasses;
+	private ObservableList<Classe> classes;
 
 	public ClasseDataSource() {
-		this.allClasses = FXCollections.observableArrayList();
 		
 		try {
-			listAllClasses();
-			int lastId = -1;
-
-			int lastIndex = allClasses.size() - 1;
-			lastId = allClasses.get(lastIndex).getId();
-			Classe.setIdAssigner(lastId);
-
+			listClasses();
 		} catch (UMSException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public ObservableList<Classe> getClasses() {
-		return allClasses;
+		return classes;
 	}
 
-	private void listAllClasses() throws UMSException {
-		allClasses = ClasseDAO.getClasses();
+	private void listClasses() throws UMSException {
+		classes = FXCollections.observableArrayList();
+		classes = ClasseDAO.getClasses();
 	}
 
 	public int addClasse(Classe classe) throws UMSException {
@@ -41,11 +35,9 @@ public class ClasseDataSource {
 
 		if (status > 0) {
 
-			int id = Classe.getIdAssigner() + 1;
-			Classe.setIdAssigner(id);
-
+			int id = ClasseDAO.getMaxIdByClasse();
 			classe.setId(id);
-			this.allClasses.add(classe);
+			classes.add(classe);
 		}
 
 		return status;
@@ -55,8 +47,8 @@ public class ClasseDataSource {
 		int status = ClasseDAO.updateClasse(classe);
 
 		if (status > 0) {
-			this.allClasses.remove(selectedClasseIndex);
-			this.allClasses.add(selectedClasseIndex, classe);
+			classes.remove(selectedClasseIndex);
+			classes.add(selectedClasseIndex, classe);
 		}
 
 		return status;

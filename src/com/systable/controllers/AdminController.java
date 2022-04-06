@@ -8,6 +8,7 @@ import com.systable.app.Main;
 import com.systable.entities.User;
 import com.systable.enumeration.Profile;
 import com.systable.exceptions.UMSException;
+import com.systable.jdbc.UserDAO;
 import com.systable.metier.AdminMetier;
 import com.systable.session.UserSession;
 
@@ -154,9 +155,17 @@ public class AdminController implements Initializable {
 	private Stage stage;
 	private Parent root;
 
+	public static AdminController INSTANCE = null;
 	private ObservableList<User> users;
 
 	public AdminController() {
+	}
+
+	public static AdminController getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new AdminController();
+		}
+		return INSTANCE;
 	}
 
 	@Override
@@ -171,8 +180,12 @@ public class AdminController implements Initializable {
 	}
 
 	private void initData() {
-		users = AdminMetier.listUsers();
-		updateNbUserL();
+		try {
+			users = AdminMetier.getUsers();
+			updateNbUserL();
+		} catch (UMSException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initTable() {
@@ -244,8 +257,8 @@ public class AdminController implements Initializable {
 		searchProfileCB.getItems().addAll(Profile.values());
 
 		ObservableList<String> attributes = FXCollections.observableArrayList();
-		attributes.add("First name");
-		attributes.add("Last name");
+		attributes.add("first_name");
+		attributes.add("last_name");
 		searchAttributeCB.setItems(attributes);
 	}
 
@@ -257,8 +270,7 @@ public class AdminController implements Initializable {
 		String emailVal = emailTF.getText();
 		String addressVal = addressTF.getText();
 
-		boolean check = checkField();
-		if (!check)
+		if (!checkField())
 			return;
 
 		int status = 0;
@@ -270,22 +282,26 @@ public class AdminController implements Initializable {
 		status = AdminMetier.addUser(newUser);
 
 		if (status < 0) {
-			
+
 			String errorMsg = null;
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Add user!!");
-			
-			if (status == -1) errorMsg = ("Oops. Ce login existe deja.");
-			if (status == -2) errorMsg = ("Oops. Ce numero de telephone existe deja.");
-			if (status == -3) errorMsg = ("Oops. Cet email existe deja.");
-			
+
+			if (status == -1)
+				errorMsg = ("Oops. Ce login existe deja.");
+			if (status == -2)
+				errorMsg = ("Oops. Ce numero de telephone existe deja.");
+			if (status == -3)
+				errorMsg = ("Oops. Cet email existe deja.");
+
 			alert.setContentText(errorMsg);
 			alert.showAndWait();
-			return ;
+			return;
 		}
 
 		if (profileCB.getValue() == searchProfileCB.getValue() || searchProfileCB.getValue() == null) {
+			newUser.setId(UserDAO.getMaxIdByUser());
 			users.add(newUser);
 			updateNbUserL();
 		}
@@ -340,7 +356,7 @@ public class AdminController implements Initializable {
 
 	@FXML
 	void minimizeWindow(ActionEvent event) {
-		ServiceController.minimizeWindow(adminWindow);
+		ServiceController.minimizeWindow(event);
 	}
 
 	@FXML
@@ -451,14 +467,18 @@ public class AdminController implements Initializable {
 		if (!bool)
 			return;
 
-		AdminMetier.listUsersByAttributes(searchAttributeCB.getValue(), searchAttributeTF.getText());
+		users = AdminMetier.listUsers(searchAttributeCB.getValue().toString(), searchAttributeTF.getText());
 		updateNbUserL();
+		refreshTable();
 	}
 
 	@FXML
 	void searchByProfile(ActionEvent event) throws UMSException {
-		AdminMetier.listUsersByProfile(searchProfileCB.getValue());
+		users = AdminMetier.listUsers("profile", searchProfileCB.getValue().toString());
 		updateNbUserL();
+		refreshTable();
+		searchAttributeTF.setText(null);
+		searchAttributeCB.setValue(null);
 	}
 
 	@FXML
@@ -472,34 +492,33 @@ public class AdminController implements Initializable {
 				alert.setHeaderText("Ouverture!!");
 				alert.setContentText("La fenetre de profile est ouverte.");
 				alert.showAndWait();
-				return;
+			} else {
+				ProfileController.isOpen = true;
+				String rootFxmlFile = "Profile";
+				loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
+				loader.setController(profileController);
+				root = loader.load();
+
+				stage = new Stage();
+				stage.setScene(new Scene(root));
+				stage.setTitle(Main.TITLE);
+				stage.setResizable(false);
+				stage.initStyle(StageStyle.UNDECORATED);
+				stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+					@Override
+					public void handle(WindowEvent arg0) {
+						Alert alert = new Alert(AlertType.WARNING);
+						alert.setTitle(Main.TITLE);
+						alert.setHeaderText("Fermeture non autorisee!!");
+						alert.setContentText("Utilisez le bouton correspondant.");
+						alert.showAndWait();
+
+						arg0.consume();
+					}
+				});
+				stage.show();
 			}
-			ProfileController.isOpen = true;
-
-			String rootFxmlFile = "Profile";
-			loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
-			loader.setController(profileController);
-			root = loader.load();
-
-			stage = new Stage();
-			stage.setScene(new Scene(root));
-			stage.setTitle(Main.TITLE);
-			stage.setResizable(false);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-				@Override
-				public void handle(WindowEvent arg0) {
-					Alert alert = new Alert(AlertType.WARNING);
-					alert.setTitle(Main.TITLE);
-					alert.setHeaderText("Fermeture non autorisee!!");
-					alert.setContentText("Utilisez le bouton correspondant.");
-					alert.showAndWait();
-
-					arg0.consume();
-				}
-			});
-			stage.show();
 		} catch (
 
 		Exception e2) {
@@ -535,5 +554,6 @@ public class AdminController implements Initializable {
 			System.err.println(e.getMessage());
 		}
 	}
+
 
 }

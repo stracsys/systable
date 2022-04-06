@@ -3,6 +3,8 @@ package com.systable.controllers;
 import com.systable.app.Main;
 import com.systable.enumeration.Profile;
 
+import javafx.event.Event;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
@@ -80,7 +82,7 @@ public class ServiceController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle(Main.TITLE);
 			alert.setHeaderText("Champ requis!!");
-			alert.setContentText("Le champ " + name + " est vide.");
+			alert.setContentText("Selectionnez un(e) " + name + ".");
 			alert.showAndWait();
 
 			return false;
@@ -104,8 +106,10 @@ public class ServiceController {
 		return true;
 	}
 
-	public static void minimizeWindow(Pane rootWindow) {
-		Stage stage = (Stage) rootWindow.getScene().getWindow();
+	public static void minimizeWindow(Event event) {
+
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//		Stage stage = (Stage) rootWindow.getScene().getWindow();
 		stage.setIconified(true);
 	}
 }

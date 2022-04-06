@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDate;
 
 import com.systable.entities.Course;
 import com.systable.exceptions.UMSException;
@@ -37,28 +38,39 @@ public class CourseDAO {
 		} catch (Exception e) {
 			throw new UMSException(e.getClass() + ";" + e.getMessage());
 		}
-		
+
 		return status;
+	}
+
+	public static int getMaxIdByCourse() throws UMSException {
+		int id = 0;
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT MAX( id ) FROM courses");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return id;
 	}
 
 	public static Course getCourseById(int id) throws UMSException {
 		Course u = new Course();
 		try (Connection conn = DBManager.getConnection()) {
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM courses WHERE login = ?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM courses WHERE id = ?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				int index = 0;
-				u = new Course(
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getString(++index),
-						rs.getInt(++index),
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getString(++index), rs.getString(++index));
+				u = new Course(rs.getInt(++index), rs.getInt(++index), rs.getInt(++index), rs.getInt(++index),
+						rs.getBoolean(++index), rs.getBoolean(++index), rs.getBoolean(++index), rs.getBoolean(++index),
+						rs.getString(++index), LocalDate.parse(rs.getString(++index)), rs.getInt(++index),
+						rs.getInt(++index));
+
 			}
 
 		} catch (Exception e) {
@@ -76,10 +88,11 @@ public class CourseDAO {
 
 			while (rs.next()) {
 				int index = 0;
-				Course u = new Course(rs.getInt(++index), rs.getString(++index), rs.getString(++index),
-						rs.getString(++index), rs.getString(++index), rs.getInt(++index), rs.getInt(++index),
-						rs.getString(++index), rs.getString(++index), rs.getString(++index));
-				courses.add(u);
+				Course c = new Course(rs.getInt(++index), rs.getInt(++index), rs.getInt(++index), rs.getInt(++index),
+						rs.getBoolean(++index), rs.getBoolean(++index), rs.getBoolean(++index), rs.getBoolean(++index),
+						rs.getString(++index), LocalDate.parse(rs.getString(++index)), rs.getInt(++index),
+						rs.getInt(++index));
+				courses.add(c);
 			}
 
 		} catch (Exception e) {
@@ -109,18 +122,21 @@ public class CourseDAO {
 		int status = 0;
 		try (Connection connection = DBManager.getConnection()) {
 
-			String query = "UPDATE courses SET login=?, password=?, first_name=?, last_name=?, phone_code=?, phone_number=?, email=?, address=? where id=?";
+			String query = "UPDATE courses SET start_hours=?, duration=?, end_hours=?, is_dispense=?, is_modify=?, is_valid=?, is_payed=? content=?, date=?, id_module=?, id_timetable=? where id=?";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 
 			int index = 0;
-			preparedStatement.setString(++index, course.getLogin());
-			preparedStatement.setString(++index, course.getPassword());
-			preparedStatement.setString(++index, course.getFirstName());
-			preparedStatement.setString(++index, course.getLastName());
-			preparedStatement.setInt(++index, course.getPhoneCode());
-			preparedStatement.setInt(++index, course.getPhoneNumber());
-			preparedStatement.setString(++index, course.getEmail());
-			preparedStatement.setString(++index, course.getAddress());
+			preparedStatement.setInt(++index, course.getStartHours());
+			preparedStatement.setInt(++index, course.getDuration());
+			preparedStatement.setInt(++index, course.getEndHours());
+			preparedStatement.setBoolean(++index, course.isDispense());
+			preparedStatement.setBoolean(++index, course.isModify());
+			preparedStatement.setBoolean(++index, course.isValid());
+			preparedStatement.setBoolean(++index, course.isPayed());
+			preparedStatement.setString(++index, course.getContent());
+			preparedStatement.setString(++index, course.getDate().toString());
+			preparedStatement.setInt(++index, course.getIdModule());
+			preparedStatement.setInt(++index, course.getIdTimeTable());
 			preparedStatement.setInt(++index, course.getId());
 
 			status = preparedStatement.executeUpdate();

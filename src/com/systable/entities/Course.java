@@ -18,8 +18,6 @@ public class Course {
 	private int idModule;
 	private int idTimeTable;
 	
-	private static int idAssigner;
-
 	public Course() {
 	}
 
@@ -41,10 +39,6 @@ public class Course {
 		this.isPayed = isPayed;
 		this.content = content;
 		this.idTimeTable = idTimeTable;
-	}
-
-	public static int getIdAssigner() {
-		return idAssigner;
 	}
 
 	public int getId() {
@@ -141,9 +135,5 @@ public class Course {
 
 	public void setIdTimeTable(int idTimeTable) {
 		this.idTimeTable = idTimeTable;
-	}
-
-	public static void setIdAssigner(int idAssigner) {
-		Course.idAssigner = idAssigner;
 	}
 }

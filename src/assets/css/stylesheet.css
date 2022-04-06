@@ -22,6 +22,10 @@
 	-fx-font-family: "JetBrains Mono Regular";
 }
 
+.bg-java {
+	-fx-background-image: url("../img/jee.png");
+}
+
 /* .dialog-pane {
   -fx-border-width: 10px;
   -fx-border-color: gray;

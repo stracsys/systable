@@ -25,10 +25,13 @@ public class ClasseDAO {
 			status = ps.executeUpdate();
 
 		} catch (SQLIntegrityConstraintViolationException e) {
-			if (e.getMessage().contains("name"))
+			System.err.println(e.getMessage());
+			if (e.getMessage().contains("id"))
 				status = -1;
-			else if (e.getMessage().contains("id"))
+			else if (e.getMessage().contains("name"))
 				status = -2;
+			else if (e.getMessage().contains("id_chief"))
+				status = -3;
 			else
 				System.err.println(e.getMessage());
 		} catch (Exception e) {
@@ -52,13 +55,51 @@ public class ClasseDAO {
 
 			status = ps.executeUpdate();
 
-		} catch (Exception e) {
+		} catch (SQLIntegrityConstraintViolationException e) {
+			if (e.getMessage().contains("id_chief"))
+				status = -1;
+		} 
+		catch (Exception e) {
 			throw new UMSException(e.getClass() + ";" + e.getMessage());
 		}
 
 		return status;
 	}
-	
+
+	public static int getMaxIdByClasse() throws UMSException {
+		int id = 0;
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT MAX( id ) FROM classes");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return id;
+	}
+
+	public static Classe getClasseById(int id) throws UMSException {
+		Classe c = new Classe();
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM classes WHERE id = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int index = 0;
+				c = new Classe(rs.getInt(++index), rs.getString(++index), rs.getInt(++index));
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return c;
+	}
+
 	public static ObservableList<Classe> getClasses() throws UMSException {
 		ObservableList<Classe> classes = FXCollections.observableArrayList();
 		try (Connection conn = DBManager.getConnection()) {
@@ -67,11 +108,7 @@ public class ClasseDAO {
 
 			while (rs.next()) {
 				int index = 0;
-				Classe c = new Classe(
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getInt(++index)
-						);
+				Classe c = new Classe(rs.getInt(++index), rs.getString(++index), rs.getInt(++index));
 				classes.add(c);
 			}
 

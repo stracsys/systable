@@ -12,6 +12,7 @@ import com.systable.session.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -140,15 +141,14 @@ public class ProfileController implements Initializable {
 
 		if (alert.showAndWait().get() == ButtonType.OK) {
 			ProfileController.isOpen = false;
-			ProfileController.INSTANCE = null;
-			stage = (Stage) profileWindow.getScene().getWindow();
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			stage.close();
 		}
 	}
 
 	@FXML
 	void minimizeWindow(ActionEvent event) {
-		ServiceController.minimizeWindow(profileWindow);
+		ServiceController.minimizeWindow(event);
 	}
 
 	@FXML

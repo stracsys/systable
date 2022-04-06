@@ -34,7 +34,7 @@ public class HomeController {
 
 	@FXML
 	private Pane rootPane;
-	
+
 	@FXML
 	private TextField loginTF;
 
@@ -71,7 +71,7 @@ public class HomeController {
 
 	@FXML
 	void minimizeWindow(ActionEvent event) {
-		ServiceController.minimizeWindow(homeWindow);
+		ServiceController.minimizeWindow(event);
 	}
 
 	@FXML
@@ -80,22 +80,25 @@ public class HomeController {
 
 		if (status > 0) {
 			user = UserDAO.getUserByLogin(loginTF.getText());
-			UserSession userSession =  UserSession.getInstance(user);
+			UserSession userSession = UserSession.getInstance(user);
 
 			String rootFxmlFile;
 
 			switch (user.getProfile()) {
 			case ADMIN:
 				rootFxmlFile = "Admin";
-				AdminController adminController = new AdminController();
+				AdminController adminController = AdminController.getInstance();
 				loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
 				loader.setController(adminController);
 				root = loader.load();
 
 				break;
-//			case ASSISTANT:
-//
-//				break;
+			case ASSISTANT:
+				rootFxmlFile = "Assistant";
+				AssistantController assistantController = AssistantController.getInstance();
+				loader = new FXMLLoader(getClass().getResource(Main.FXML_PATH + rootFxmlFile + ".fxml"));
+				loader.setController(assistantController);
+				root = loader.load();
 			default:
 				break;
 			}

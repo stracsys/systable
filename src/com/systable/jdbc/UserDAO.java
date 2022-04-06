@@ -47,7 +47,7 @@ public class UserDAO {
 		} catch (Exception e) {
 			throw new UMSException(e.getClass() + ";" + e.getMessage());
 		}
-		
+
 		return status;
 	}
 
@@ -73,6 +73,22 @@ public class UserDAO {
 		return status;
 	}
 
+	public static int getMaxIdByUser() throws UMSException {
+		int id = 0;
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT MAX( id ) FROM users");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return id;
+	}
+	
 	public static User getUserById(int id) throws UMSException {
 		User u = new User();
 		try (Connection conn = DBManager.getConnection()) {
@@ -133,6 +149,31 @@ public class UserDAO {
 
 		return users;
 	}
+
+	public static ObservableList<User> getUsersByAttribute(String attribute, String value) throws UMSException {
+		ObservableList<User> users = FXCollections.observableArrayList();
+		try (Connection conn = DBManager.getConnection()) {
+			String query = "SELECT * FROM users WHERE " + attribute + " LIKE '%"+ value + "%'";
+			PreparedStatement ps = conn.prepareStatement(query);
+//			ps.setString(1, attribute);
+//			ps.setString(1, value);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int index = 0;
+				User u = new User(rs.getInt(++index), rs.getString(++index), rs.getString(++index),
+						rs.getString(++index), rs.getString(++index), rs.getInt(++index), rs.getInt(++index),
+						rs.getString(++index), rs.getString(++index), rs.getString(++index));
+				users.add(u);
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return users;
+	}
+
 
 	public static int deleteUser(User user) throws UMSException {
 		int status = 0;

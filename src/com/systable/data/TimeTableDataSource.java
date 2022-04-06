@@ -10,30 +10,24 @@ import javafx.collections.ObservableList;
 
 public class TimeTableDataSource {
 
-	private ObservableList<TimeTable> allTimeTables;
+	private ObservableList<TimeTable> timeTables;
 
 	public TimeTableDataSource() {
-		this.allTimeTables = FXCollections.observableArrayList();
 		
 		try {
-			listAllTimeTables();
-			int lastId = -1;
-
-			int lastIndex = allTimeTables.size() - 1;
-			lastId = allTimeTables.get(lastIndex).getId();
-			TimeTable.setIdAssigner(lastId);
-
+			listTimeTables();
 		} catch (UMSException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public ObservableList<TimeTable> getTimeTables() {
-		return allTimeTables;
+		return timeTables;
 	}
 
-	private void listAllTimeTables() throws UMSException {
-		allTimeTables = TimeTableDAO.getTimeTables();
+	private void listTimeTables() throws UMSException {
+		timeTables = FXCollections.observableArrayList();
+		timeTables = TimeTableDAO.getTimeTables();
 	}
 
 	public int addTimeTable(TimeTable timeTable) throws UMSException {
@@ -42,11 +36,10 @@ public class TimeTableDataSource {
 
 		if (status > 0) {
 
-			int id = TimeTable.getIdAssigner() + 1;
-			TimeTable.setIdAssigner(id);
-
+			int id = TimeTableDAO.getMaxIdByTimeTable();
 			timeTable.setId(id);
-			this.allTimeTables.add(timeTable);
+
+//			timeTables.add(timeTable);
 		}
 
 		return status;

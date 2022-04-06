@@ -9,30 +9,24 @@ import javafx.collections.ObservableList;
 
 public class ModuleDataSource {
 
-	private ObservableList<Modules> allModules;
+	private ObservableList<Modules> modules;
 
 	public ModuleDataSource() {
-		this.allModules = FXCollections.observableArrayList();
 		
 		try {
-			listAllModules();
-			int lastId = -1;
-
-			int lastIndex = allModules.size() - 1;
-			lastId = allModules.get(lastIndex).getId();
-			Modules.setIdAssigner(lastId);
-
+			listModules();
 		} catch (UMSException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public ObservableList<Modules> getModules() {
-		return allModules;
+		return modules;
 	}
 
-	private void listAllModules() throws UMSException {
-		allModules = ModuleDAO.getModules();
+	private void listModules() throws UMSException {
+		modules = FXCollections.observableArrayList();
+		modules = ModuleDAO.getModules();
 	}
 
 	public int addModule(Modules modules) throws UMSException {
@@ -41,11 +35,10 @@ public class ModuleDataSource {
 
 		if (status > 0) {
 
-			int id = Modules.getIdAssigner() + 1;
-			Modules.setIdAssigner(id);
-
+			int id = ModuleDAO.getMaxIdByModule();
 			modules.setId(id);
-			this.allModules.add(modules);
+
+//			modules.add(modules);
 		}
 
 		return status;
@@ -55,8 +48,8 @@ public class ModuleDataSource {
 		int status = ModuleDAO.updateModule(modules);
 
 		if (status > 0) {
-			this.allModules.remove(selectedModuleIndex);
-			this.allModules.add(selectedModuleIndex, modules);
+			this.modules.remove(selectedModuleIndex);
+			this.modules.add(selectedModuleIndex, modules);
 		}
 
 		return status;

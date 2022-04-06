@@ -5,5 +5,6 @@ module SysTable {
 	
 	opens com.systable.app to javafx.graphics, javafx.fxml;
 	opens com.systable.entities to javafx.base;
+	opens com.systable.entities.jointures to javafx.base;
 	opens com.systable.controllers to javafx.graphics, javafx.fxml;
 }

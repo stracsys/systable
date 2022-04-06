@@ -40,6 +40,41 @@ public class ModuleDAO {
 		return status;
 	}
 
+	public static int getMaxIdByModule() throws UMSException {
+		int id = 0;
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT MAX( id ) FROM modules");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return id;
+	}
+
+	public static Modules getModulesById(int id) throws UMSException {
+		Modules m = new Modules();
+		try (Connection conn = DBManager.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM modules WHERE id = ?");
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				int index = 0;
+				m = new Modules(rs.getInt(++index), rs.getString(++index), rs.getInt(++index), rs.getInt(++index),
+						rs.getInt(++index), rs.getBoolean(++index), rs.getInt(++index), rs.getInt(++index));
+			}
+
+		} catch (Exception e) {
+			throw new UMSException(e.getClass() + ";" + e.getMessage());
+		}
+
+		return m;
+	}
+
 	public static ObservableList<Modules> getModules() throws UMSException {
 		ObservableList<Modules> modules = FXCollections.observableArrayList();
 		try (Connection conn = DBManager.getConnection()) {
@@ -48,16 +83,9 @@ public class ModuleDAO {
 
 			while (rs.next()) {
 				int index = 0;
-				Modules m = new Modules(
-						rs.getInt(++index),
-						rs.getString(++index),
-						rs.getInt(++index),
-						rs.getInt(++index),
-						rs.getInt(++index),
-						rs.getBoolean(++index),
-						rs.getInt(++index),
-						rs.getInt(++index)
-						);
+				Modules m = new Modules(rs.getInt(++index), rs.getString(++index), rs.getInt(++index),
+						rs.getInt(++index), rs.getInt(++index), rs.getBoolean(++index), rs.getInt(++index),
+						rs.getInt(++index));
 				modules.add(m);
 			}
 
@@ -72,7 +100,7 @@ public class ModuleDAO {
 		int status = 0;
 		try (Connection connection = DBManager.getConnection()) {
 
-			String query = "UPDATE modules SET name=?, hours_dispense=?, hours_remaining=?, hours_total=?, is_close=?, id_class, id_teacher=?, where id=?";
+			String query = "UPDATE modules SET name=?, hours_dispense=?, hours_remaining=?, hours_total=?, is_close=?, id_class=?, id_teacher=?, where id=?";
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 
 			int index = 0;

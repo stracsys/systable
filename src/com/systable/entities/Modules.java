@@ -12,8 +12,6 @@ public class Modules {
 	private int idClasse;
 	private int idTeacher;
 	
-	private static int idAssigner;
-
 	public Modules() {
 	}
 	
@@ -95,13 +93,5 @@ public class Modules {
 
 	public void setIdTeacher(int idTeacher) {
 		this.idTeacher = idTeacher;
-	}
-
-	public static int getIdAssigner() {
-		return idAssigner;
-	}
-
-	public static void setIdAssigner(int idAssigner) {
-		Modules.idAssigner = idAssigner;
 	}
 }
