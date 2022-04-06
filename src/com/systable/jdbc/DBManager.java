@@ -15,8 +15,8 @@ public class DBManager {
 			
 			String sgbd = "mysql";
 			String db = "systable";
-			String user = "user_systable";
-			String password = "pass";
+			String user = "root";
+			String password = "";
 			
 			// Ouverture de la connexion
 			connection = DriverManager.getConnection ("jdbc:" + sgbd + "://localhost/" + db, user, password);
